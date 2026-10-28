@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ritansh | Systems & Reverse Engineering Specialist</title>
+  <meta name="description" content="Portfolio of Ritansh - Systems & Game Reverse Engineering Specialist, Embedded Robotics Developer, and Computer Science Engineer.">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Ritansh | Systems & Reverse Engineering Specialist">
+  <meta property="og:description" content="Portfolio of Ritansh - Game Reverse Engineering, Unity Engine Logic, IoT Robotics, and Computer Science.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%22 width=%2232%22 height=%2232%22><text y=%2226%22 font-size=%2224%22>⚡</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons for High Quality Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- GSAP & ScrollTrigger for High Performance Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark">
+
+  <!-- ==================== CUSTOM CURSOR ==================== -->
+  <div class="custom-cursor-dot" id="cursorDot"></div>
+  <div class="custom-cursor-ring" id="cursorRing"></div>
+
+  <!-- ==================== TECHNICAL HUD PRELOADER ==================== -->
+  <div class="hud-preloader" id="hudPreloader">
+    <div class="hud-scanner-wrapper">
+      <div class="hud-ring hud-ring-outer"></div>
+      <div class="hud-ring hud-ring-middle"></div>
+      <div class="hud-ring hud-ring-inner"></div>
+      
+      <!-- Hexagon Core -->
+      <div class="hud-hex-core">
+        <svg viewBox="0 0 100 100" class="hud-hex-svg">
+          <polygon points="50 3, 90 25, 90 75, 50 97, 10 75, 10 25" class="hex-path"></polygon>
+        </svg>
+        <span class="hud-pulse-dot"></span>
+      </div>
+
+      <!-- Binary & Coordinate Tickers -->
+      <div class="hud-tech-decorations">
+        <span class="hud-coord top-left">SYS_ADDR: 0x7FFF00A1</span>
+        <span class="hud-coord top-right">MEM_STREAM: ACTIVE</span>
+        <span class="hud-coord btm-left">ARCH: x86_64 // IL2CPP</span>
+        <span class="hud-coord btm-right">SEC_BYPASS: OK</span>
+      </div>
+    </div>
+
+    <!-- HUD Loading Metric -->
+    <div class="hud-counter-box">
+      <div class="hud-binary-ticker" id="binaryTicker">01001001 01001110 01001001 01010100</div>
+      <div class="hud-counter-val">
+        <span id="hudCount">00</span><span class="pct">%</span>
+      </div>
+      <div class="hud-progress-track">
+        <div class="hud-progress-bar" id="hudProgressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BACKGROUND CANVAS & GRID ==================== -->
+  <canvas id="bgCanvas" class="bg-canvas"></canvas>
+  <div class="cyber-grid-overlay"></div>
+  <div class="ambient-glow ambient-glow-1"></div>
+  <div class="ambient-glow ambient-glow-2"></div>
+
+  <!-- ==================== NAVIGATION BAR ==================== -->
+  <header class="site-header" id="navbar">
+    <div class="nav-container">
+      <!-- Left: Brand & Status -->
+      <div class="nav-left">
+        <a href="#hero" class="nav-brand magnetic-target">
+          <span class="brand-bracket">[</span>
+          <span class="brand-core">RM</span>
+          <span class="brand-bracket">]</span>
+          <span class="brand-sub">// RITANSH.SYS</span>
+        </a>
+        <div class="nav-status-badge">
+          <span class="status-pulse-dot"></span>
+          <span class="status-text">AVAILABLE FOR WORK</span>
+        </div>
+      </div>
+
+      <!-- Center: Nav Links -->
+      <nav class="nav-links" id="navMenu">
+        <a href="#about" class="nav-link magnetic-target"><span class="nav-idx">//01</span> About</a>
+        <a href="#skills" class="nav-link magnetic-target"><span class="nav-idx">//02</span> Skills</a>
+        <a href="#projects" class="nav-link magnetic-target"><span class="nav-idx">//03</span> Projects</a>
+        <a href="#experience" class="nav-link magnetic-target"><span class="nav-idx">//04</span> Experience</a>
+        <a href="#contact" class="nav-link magnetic-target"><span class="nav-idx">//05</span> Contact</a>
+      </nav>
+
+      <!-- Right: Nav Action -->
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-outline nav-btn magnetic-target">
+          <i class="fa-solid fa-terminal"></i>
+          <span>Get in Touch</span>
+        </a>
+        <button class="mobile-nav-toggle" id="mobileNavBtn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+  <main class="page-wrapper">
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="section-hero" id="hero">
+      <div class="container hero-container">
+        
+        <div class="hero-content">
+          <!-- Tagline Pill -->
+          <div class="hero-tag-pill reveal-item">
+            <span class="pill-dot"></span>
+            <span class="pill-text">SYSTEMS & REVERSE ENGINEERING SPECIALIST</span>
+          </div>
+
+          <!-- Main Headline -->
+          <h1 class="hero-title reveal-item">
+            Deconstructing <span class="text-gradient">Logic.</span><br>
+            Engineering <span class="text-gradient-alt">Systems.</span><br>
+            Building Tomorrow.
+          </h1>
+
+          <!-- Hero Subtitle -->
+          <p class="hero-description reveal-item">
+            Hi, I’m <strong>Ritansh</strong> — a systems explorer passionate about 
+            <span class="highlight">Game Reverse Engineering</span>, memory manipulation, and low-level logic analysis (Unity & Godot). 
+            Bridging hardware and software from <span class="highlight">IoT robotics</span> and electronics to 
+            data structures and computer science engineering.
+          </p>
+
+          <!-- Hero CTAs -->
+          <div class="hero-cta-group reveal-item">
+            <a href="#projects" class="btn btn-primary magnetic-target">
+              <span>Explore Projects</span>
+              <i class="fa-solid fa-arrow-down"></i>
+            </a>
+            <a href="#about" class="btn btn-secondary magnetic-target">
+              <span>View Background</span>
+              <i class="fa-solid fa-id-card"></i>
+            </a>
+            <a href="https://github.com/Ritansh2004" target="_blank" rel="noopener noreferrer" class="btn-icon-pill magnetic-target" title="GitHub Profile">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://fearlessrevolution.com/memberlist.php?mode=viewprofile&u=213726" target="_blank" rel="noopener noreferrer" class="btn-icon-pill magnetic-target" title="Fearless Revolution Profile">
+              <i class="fa-solid fa-shield-halved"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/ritansh-mahour-9461a7287" target="_blank" rel="noopener noreferrer" class="btn-icon-pill magnetic-target" title="LinkedIn Profile">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="hero-metrics-strip reveal-item">
+            <div class="metric-card">
+              <span class="metric-val">8.37</span>
+              <span class="metric-lbl">ECE Diploma CGPA (DSEU)</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">50+</span>
+              <span class="metric-lbl">Cheat Tables & Lua Hooks</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">Unity</span>
+              <span class="metric-lbl">Mono & IL2CPP Logic Expert</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">Dual</span>
+              <span class="metric-lbl">B.Tech (CSE) + BCA Degree</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual: Interactive Live Memory & Logic Dissector -->
+        <div class="hero-terminal-card reveal-item">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="terminal-title">
+              <i class="fa-solid fa-microchip"></i> memory_inspector.asm // Unity.Mono
+            </div>
+            <div class="terminal-status">LIVE HOOK</div>
+          </div>
+          
+          <div class="terminal-body" id="terminalCodeStream">
+            <div class="code-line"><span class="c-comment">// [Ritansh_Engine_Hook] Initializing AOB Pattern Scan</span></div>
+            <div class="code-line"><span class="c-keyword">[ENABLE]</span></div>
+            <div class="code-line"><span class="c-func">aobscanmodule</span>(INJECT, GameAssembly.dll, 48 8B 05 ?? ?? ?? ?? 48 85 C0)</div>
+            <div class="code-line"><span class="c-func">alloc</span>(newmem, $1000, INJECT)</div>
+            <div class="code-line"><span class="c-label">newmem:</span></div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-inst">mov</span> <span class="c-reg">rax</span>, [rcx+000001B8] <span class="c-comment">// Target Player Health Structure</span></div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-inst">test</span> <span class="c-reg">rax</span>, <span class="c-reg">rax</span></div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-inst">jz</span> returnhere</div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-inst">mov</span> [<span class="c-reg">rax</span>+20], (float)9999.0 <span class="c-comment">// Override Godmode Logic</span></div>
+            <div class="code-line"><span class="c-label">returnhere:</span></div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-inst">jmp</span> exit_injection</div>
+            <div class="code-line"><span class="c-keyword">[DISABLE]</span></div>
+            <div class="code-line"><span class="c-comment">// Memory restored cleanly to original opcode</span></div>
+          </div>
+
+          <div class="terminal-footer">
+            <div class="footer-badge"><i class="fa-solid fa-code-compare"></i> Target: Unity / Godot Engine</div>
+            <div class="footer-badge"><i class="fa-solid fa-bolt"></i> State: Injected Cleanly</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Safe Non-Overlapping Scroll Indicator -->
+      <div class="scroll-cue-wrapper">
+        <a href="#about" class="scroll-cue magnetic-target">
+          <span class="scroll-cue-text">SCROLL DOWN</span>
+          <div class="scroll-cue-mouse">
+            <div class="scroll-cue-wheel"></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ==================== ABOUT & BACKGROUND SECTION ==================== -->
+    <section class="section-about" id="about">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 01. PROFILE & JOURNEY</span>
+          <h2 class="section-title">Where Engineering Meets <span class="text-gradient">Curiosity</span></h2>
+          <p class="section-subtitle">A multi-disciplinary technologist blending low-level reverse engineering, hardware robotics, and modern software development.</p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Story Column -->
+          <div class="about-story-card card-glass">
+            <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+            <h3 class="card-title">Driven by What Happens Under the Hood</h3>
+            <p>
+              I am <strong>Ritansh</strong>. While many interact with software solely on the surface, 
+              my passion has always been understanding how instructions execute in physical RAM, how runtime game engines 
+              process logic, and how electrical signals bridge into automated robotics.
+            </p>
+            <p>
+              My journey started with a full-time <strong>Diploma in Electronics and Communication Engineering (ECE)</strong> from 
+              <strong>Delhi Skill and Entrepreneurship University (DSEU)</strong>, where I graduated with an impressive 
+              <strong>8.37 CGPA</strong>. During this phase, I brought code into the physical world by building an autonomous 
+              <strong>IoT Fire Fighting Robot Truck</strong> with microcontrollers and environmental sensors.
+            </p>
+            <p>
+              Currently, I am expanding my theoretical and software depth by pursuing dual degrees: 
+              <strong>B.Tech in Computer Science and Engineering (CSE)</strong> from IPU and 
+              <strong>Bachelor of Computer Applications (BCA)</strong> from IGNOU.
+            </p>
+
+            <div class="about-quote">
+              <i class="fa-solid fa-quote-left"></i>
+              <span>"Every piece of software is a puzzle waiting to be understood, disassembled, and made better."</span>
+            </div>
+          </div>
+
+          <!-- Quick Info Cards -->
+          <div class="about-details-column">
+            
+            <!-- Education Card -->
+            <div class="info-card card-glass">
+              <div class="info-card-header">
+                <i class="fa-solid fa-graduation-cap info-icon"></i>
+                <h4>Academic Background</h4>
+              </div>
+              <ul class="info-timeline">
+                <li class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <span class="timeline-date">Pursuing (2023 - Present)</span>
+                    <h5>B.Tech in Computer Science and Engineering (CSE)</h5>
+                    <p class="institution">Guru Gobind Singh Indraprastha University (IPU)</p>
+                  </div>
+                </li>
+                <li class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <span class="timeline-date">Pursuing (Concurrent)</span>
+                    <h5>Bachelor of Computer Applications (BCA)</h5>
+                    <p class="institution">Indira Gandhi National Open University (IGNOU)</p>
+                  </div>
+                </li>
+                <li class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <span class="timeline-date">Completed // Score: 8.37 CGPA</span>
+                    <h5>Diploma in Electronics & Communication Engg (ECE)</h5>
+                    <p class="institution">Delhi Skill and Entrepreneurship University (DSEU)</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Focus & Hobbies -->
+            <div class="info-card card-glass">
+              <div class="info-card-header">
+                <i class="fa-solid fa-gamepad info-icon"></i>
+                <h4>Passions & Methodology</h4>
+              </div>
+              <div class="tags-cluster">
+                <span class="tech-tag"><i class="fa-solid fa-memory"></i> Memory Research</span>
+                <span class="tech-tag"><i class="fa-solid fa-ghost"></i> Game Mechanics Analysis</span>
+                <span class="tech-tag"><i class="fa-solid fa-network-wired"></i> ICT Networking</span>
+                <span class="tech-tag"><i class="fa-solid fa-microchip"></i> Arduino & Sensors</span>
+                <span class="tech-tag"><i class="fa-solid fa-headphones"></i> Music Enthusiast</span>
+                <span class="tech-tag"><i class="fa-solid fa-film"></i> Film & Cinematography</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SKILLS & TECH STACK ==================== -->
+    <section class="section-skills" id="skills">
+      <div class="container">
+        
+        <div class="section-header text-center">
+          <span class="section-badge">// 02. TECHNICAL PROFICIENCY</span>
+          <h2 class="section-title">Engineered Across the <span class="text-gradient">Stack</span></h2>
+          <p class="section-subtitle">From low-level binary manipulation and disassembly to systems networking and robotics firmware.</p>
+        </div>
+
+        <div class="skills-matrix-grid">
+          
+          <!-- Category 1: Reverse Engineering & Systems -->
+          <div class="skill-category-card card-glass">
+            <div class="category-header">
+              <div class="category-icon cyan"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <h3>Reverse Engineering & Memory Analysis</h3>
+                <span class="category-desc">Core Specialization</span>
+              </div>
+            </div>
+            <div class="skill-chips-list">
+              <div class="skill-chip">
+                <i class="fa-solid fa-gear"></i>
+                <div class="chip-info">
+                  <strong>Cheat Engine</strong>
+                  <span>AOB Scanning, Pointer Maps, Auto Assemble</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-brands fa-unity"></i>
+                <div class="chip-info">
+                  <strong>Unity Engine (Mono & IL2CPP)</strong>
+                  <span>Logic Hooking, Metadata analysis</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-chess-knight"></i>
+                <div class="chip-info">
+                  <strong>Godot Engine</strong>
+                  <span>Node structure & logic inspection</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-code"></i>
+                <div class="chip-info">
+                  <strong>Assembly & Disassembly</strong>
+                  <span>x86 / x64 opcodes, registers & stack frames</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-scroll"></i>
+                <div class="chip-info">
+                  <strong>Lua Scripting</strong>
+                  <span>Custom automation & dynamic cheat tables</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2: Programming & Core Computer Science -->
+          <div class="skill-category-card card-glass">
+            <div class="category-header">
+              <div class="category-icon purple"><i class="fa-solid fa-code"></i></div>
+              <div>
+                <h3>Programming & Algorithmic Logic</h3>
+                <span class="category-desc">Core Languages & DSA</span>
+              </div>
+            </div>
+            <div class="skill-chips-list">
+              <div class="skill-chip">
+                <i class="fa-solid fa-laptop-code"></i>
+                <div class="chip-info">
+                  <strong>C & C++</strong>
+                  <span>Pointers, memory management, low-level execution</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-sitemap"></i>
+                <div class="chip-info">
+                  <strong>Data Structures & Algorithms (DSA)</strong>
+                  <span>Trees, graphs, dynamic programming, sorting</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-brands fa-python"></i>
+                <div class="chip-info">
+                  <strong>Python</strong>
+                  <span>Automation, scripting, rapid prototyping</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-brands fa-java"></i>
+                <div class="chip-info">
+                  <strong>Java</strong>
+                  <span>OOP concepts, multi-threading basics</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-brands fa-js"></i>
+                <div class="chip-info">
+                  <strong>JavaScript & Web Basics</strong>
+                  <span>Frontend layouts, DOM & modern web basics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3: Hardware, IoT & Embedded Systems -->
+          <div class="skill-category-card card-glass">
+            <div class="category-header">
+              <div class="category-icon green"><i class="fa-solid fa-robot"></i></div>
+              <div>
+                <h3>IoT, Electronics & Embedded Hardware</h3>
+                <span class="category-desc">ECE & Robotics Foundation</span>
+              </div>
+            </div>
+            <div class="skill-chips-list">
+              <div class="skill-chip">
+                <i class="fa-solid fa-microchip"></i>
+                <div class="chip-info">
+                  <strong>Arduino & Microcontrollers</strong>
+                  <span>Firmware programming, sensor integration</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-fire-extinguisher"></i>
+                <div class="chip-info">
+                  <strong>Sensor Arrays</strong>
+                  <span>Flame sensors, MQ-series gas sensors, IR/Ultrasonic</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-bolt"></i>
+                <div class="chip-info">
+                  <strong>Motor Drivers & Actuators</strong>
+                  <span>L298N drivers, relay triggers, DC pump systems</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <div class="chip-info">
+                  <strong>Hardware Troubleshooting</strong>
+                  <span>Circuit diagnostics, multimeter testing, wiring</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 4: Networking & Systems Administration -->
+          <div class="skill-category-card card-glass">
+            <div class="category-header">
+              <div class="category-icon orange"><i class="fa-solid fa-network-wired"></i></div>
+              <div>
+                <h3>Networking & System Maintenance</h3>
+                <span class="category-desc">Infrastructure & Support</span>
+              </div>
+            </div>
+            <div class="skill-chips-list">
+              <div class="skill-chip">
+                <i class="fa-solid fa-diagram-project"></i>
+                <div class="chip-info">
+                  <strong>ICT Network Analysis</strong>
+                  <span>Topology, routing, switch/router inspection (NIC)</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-ethernet"></i>
+                <div class="chip-info">
+                  <strong>Computer Networking Fundamentals</strong>
+                  <span>TCP/IP, subnetting, DNS, OSI model layers</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-computer"></i>
+                <div class="chip-info">
+                  <strong>Computer User Support</strong>
+                  <span>Hardware maintenance, OS configuration</span>
+                </div>
+              </div>
+              <div class="skill-chip">
+                <i class="fa-solid fa-keyboard"></i>
+                <div class="chip-info">
+                  <strong>High Productivity Tools</strong>
+                  <span>Typing Speed (37-52 WPM), Advanced Excel, Tally</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SELECTED PROJECTS ==================== -->
+    <section class="section-projects" id="projects">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 03. FEATURED WORK</span>
+          <h2 class="section-title">Selected Projects & <span class="text-gradient">Case Studies</span></h2>
+          <p class="section-subtitle">Real-world implementations in Game Reverse Engineering, Autonomous Robotics, and Network Analysis.</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="project-filters">
+          <button class="filter-btn active magnetic-target" data-filter="all">All Projects</button>
+          <button class="filter-btn magnetic-target" data-filter="reverse-engineering">Reverse Engineering</button>
+          <button class="filter-btn magnetic-target" data-filter="iot-robotics">IoT & Robotics</button>
+          <button class="filter-btn magnetic-target" data-filter="systems-dsa">Systems & DSA</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+
+          <!-- PROJECT 1: Game Reverse Engineering Suite -->
+          <div class="project-card card-glass" data-category="reverse-engineering" data-project-id="re-suite">
+            <div class="project-card-banner banner-re">
+              <div class="banner-badge">REVERSE ENG</div>
+              <div class="banner-tech-symbol"><i class="fa-solid fa-shield-virus"></i></div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-meta">
+                <span class="project-year">2024 - Present</span>
+                <span class="project-engine"><i class="fa-brands fa-unity"></i> Unity // Godot</span>
+              </div>
+              <h3 class="project-name">Game Reverse Engineering & Memory Analysis</h3>
+              <p class="project-excerpt">
+                Comprehensive memory research suite featuring Cheat Engine tables, Lua scripts, and Auto Assemble injections 
+                for dissecting game mechanics, runtime logic hooking, and memory pattern scanning.
+              </p>
+              
+              <div class="project-tags">
+                <span>Cheat Engine</span>
+                <span>Lua</span>
+                <span>x86/x64 Assembly</span>
+                <span>AOB Scanning</span>
+                <span>Unity Mono/IL2CPP</span>
+              </div>
+
+              <div class="project-card-actions">
+                <button class="btn btn-outline btn-sm open-modal-btn magnetic-target" data-project-id="re-suite">
+                  <span>View Breakdown</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+                <div class="quick-links">
+                  <a href="https://github.com/Ritansh2004/Cheat-Engine-Cheat-Tables" target="_blank" rel="noopener noreferrer" class="link-circle magnetic-target" title="GitHub Repo">
+                    <i class="fa-brands fa-github"></i>
+                  </a>
+                  <a href="https://fearlessrevolution.com/memberlist.php?mode=viewprofile&u=213726" target="_blank" rel="noopener noreferrer" class="link-circle magnetic-target" title="Fearless Revolution Profile">
+                    <i class="fa-solid fa-users"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 2: Autonomous IoT Fire Fighting Robot Truck -->
+          <div class="project-card card-glass" data-category="iot-robotics" data-project-id="fire-robot">
+            <div class="project-card-banner banner-iot">
+              <div class="banner-badge">HARDWARE & ROBOTICS</div>
+              <div class="banner-tech-symbol"><i class="fa-solid fa-truck-droplet"></i></div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-meta">
+                <span class="project-year">Diploma Capstone</span>
+                <span class="project-engine"><i class="fa-solid fa-microchip"></i> Embedded C++ // Arduino</span>
+              </div>
+              <h3 class="project-name">Autonomous IoT Fire Fighting Robot Truck</h3>
+              <p class="project-excerpt">
+                Engineered an automated emergency response vehicle equipped with flame detectors, MQ toxic gas sensors, 
+                obstacle avoidance, and a DC water pumping mechanism to extinguish fires safely.
+              </p>
+              
+              <div class="project-tags">
+                <span>Arduino</span>
+                <span>Embedded C</span>
+                <span>MQ Gas Sensor</span>
+                <span>Flame Sensor Array</span>
+                <span>L298N Driver</span>
+              </div>
+
+              <div class="project-card-actions">
+                <button class="btn btn-outline btn-sm open-modal-btn magnetic-target" data-project-id="fire-robot">
+                  <span>View Breakdown</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+                <span class="badge-accent">DSEU 8.37 CGPA Project</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 3: ICT Network Infrastructure Analysis -->
+          <div class="project-card card-glass" data-category="systems-dsa" data-project-id="nic-network">
+            <div class="project-card-banner banner-network">
+              <div class="banner-badge">NETWORKING INTERNSHIP</div>
+              <div class="banner-tech-symbol"><i class="fa-solid fa-network-wired"></i></div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-meta">
+                <span class="project-year">National Informatics Centre</span>
+                <span class="project-engine"><i class="fa-solid fa-building-columns"></i> CGO Complex, Delhi</span>
+              </div>
+              <h3 class="project-name">Study & Analysis of ICT Network Architecture</h3>
+              <p class="project-excerpt">
+                Evaluated enterprise ICT networking protocols, router and switch configuration topologies, security zones, 
+                and high-availability communication infrastructure at NIC headquarters.
+              </p>
+              
+              <div class="project-tags">
+                <span>ICT Infrastructure</span>
+                <span>TCP/IP Protocols</span>
+                <span>Network Routing</span>
+                <span>Subnetting</span>
+                <span>Security</span>
+              </div>
+
+              <div class="project-card-actions">
+                <button class="btn btn-outline btn-sm open-modal-btn magnetic-target" data-project-id="nic-network">
+                  <span>View Breakdown</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+                <span class="badge-accent">Govt. of India Internship</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 4: Data Structures & Algorithms Suite -->
+          <div class="project-card card-glass" data-category="systems-dsa" data-project-id="dsa-suite">
+            <div class="project-card-banner banner-dsa">
+              <div class="banner-badge">ALGORITHMIC FOUNDATION</div>
+              <div class="banner-tech-symbol"><i class="fa-solid fa-code-branch"></i></div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-meta">
+                <span class="project-year">CipherSchools Certified</span>
+                <span class="project-engine"><i class="fa-solid fa-certificate"></i> 2-Month Intensive Training</span>
+              </div>
+              <h3 class="project-name">Data Structures & Computational Problem Solving</h3>
+              <p class="project-excerpt">
+                Hands-on algorithmic implementation covering complex pointer operations, trees, graph traversal algorithms, 
+                and time/space complexity optimization strategies.
+              </p>
+              
+              <div class="project-tags">
+                <span>C++</span>
+                <span>Trees & Graphs</span>
+                <span>Dynamic Programming</span>
+                <span>Complexity Analysis</span>
+              </div>
+
+              <div class="project-card-actions">
+                <button class="btn btn-outline btn-sm open-modal-btn magnetic-target" data-project-id="dsa-suite">
+                  <span>View Breakdown</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+                <a href="https://cipherschools.com/certificate/preview?id=6aa10ad90ba0d6d72e610169" target="_blank" rel="noopener noreferrer" class="link-circle magnetic-target" title="Verify Certificate">
+                  <i class="fa-solid fa-award"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== EXPERIENCE & CERTIFICATIONS TIMELINE ==================== -->
+    <section class="section-experience" id="experience">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 04. EXPERIENCE & ACCREDITATION</span>
+          <h2 class="section-title">Milestones & Practical <span class="text-gradient">Experience</span></h2>
+          <p class="section-subtitle">Verified internships, specialized technical training, and community contributions.</p>
+        </div>
+
+        <div class="experience-timeline">
+          
+          <!-- Item 1: Community Reverse Engineer -->
+          <div class="timeline-block card-glass">
+            <div class="timeline-badge"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="timeline-meta-bar">
+              <span class="timeline-role">Game Reverse Engineering & Memory Research Contributor</span>
+              <span class="timeline-time">Ongoing // Community Contributor</span>
+            </div>
+            <h4 class="timeline-company">GitHub & Fearless Revolution Community</h4>
+            <p class="timeline-desc">
+              Active researcher publishing specialized Cheat Engine tables, Lua automation scripts, and custom memory hooks. 
+              Specializing in Unity Engine (Mono/IL2CPP) and Godot Engine game architectures, analyzing memory structures, 
+              finding static base pointers, and writing robust AOB injection scripts that resist game updates.
+            </p>
+            <div class="timeline-links">
+              <a href="https://github.com/Ritansh2004/Cheat-Engine-Cheat-Tables" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <i class="fa-brands fa-github"></i> View Cheat Tables Repo
+              </a>
+              <a href="https://github.com/Ritansh2004/Cheat-Engine-Lua-Scripts" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <i class="fa-solid fa-scroll"></i> View Lua Scripts Repo
+              </a>
+              <a href="https://fearlessrevolution.com/memberlist.php?mode=viewprofile&u=213726" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <i class="fa-solid fa-users"></i> Fearless Revolution Profile
+              </a>
+            </div>
+          </div>
+
+          <!-- Item 2: NIC Internship -->
+          <div class="timeline-block card-glass">
+            <div class="timeline-badge"><i class="fa-solid fa-building-flag"></i></div>
+            <div class="timeline-meta-bar">
+              <span class="timeline-role">Intern - Study & Analysis of ICT Network</span>
+              <span class="timeline-time">1 Month Intensive Internship</span>
+            </div>
+            <h4 class="timeline-company">National Informatics Centre (NIC), CGO Complex, Delhi</h4>
+            <p class="timeline-desc">
+              Conducted in-depth study and analysis of enterprise-grade ICT networking systems for government infrastructure. 
+              Gained practical insights into large-scale network architecture, secure routing policies, switch configurations, 
+              and data communication protocols.
+            </p>
+            <div class="timeline-links">
+              <a href="https://www.linkedin.com/in/ritansh-mahour-9461a7287" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <i class="fa-brands fa-linkedin"></i> View Internship on LinkedIn
+              </a>
+            </div>
+          </div>
+
+          <!-- Item 3: CipherSchools DSA Training -->
+          <div class="timeline-block card-glass">
+            <div class="timeline-badge"><i class="fa-solid fa-award"></i></div>
+            <div class="timeline-meta-bar">
+              <span class="timeline-role">Data Structures & Algorithms Certification</span>
+              <span class="timeline-time">2 Month Formal Training Program</span>
+            </div>
+            <h4 class="timeline-company">Cipher Schools</h4>
+            <p class="timeline-desc">
+              Completed rigorous practical training focusing on computational problem-solving, asymptotic time/space complexities, 
+              pointer-based linear data structures, tree hierarchies, searching, sorting, and recursion techniques.
+            </p>
+            <div class="timeline-links">
+              <a href="https://cipherschools.com/certificate/preview?id=6aa10ad90ba0d6d72e610169" target="_blank" rel="noopener noreferrer" class="timeline-link primary-link">
+                <i class="fa-solid fa-certificate"></i> Verify Certificate Online (ID: 6aa10ad90ba0d6d72e610169)
+              </a>
+              <a href="https://www.credly.com/users/ritansh-mahour/badges" target="_blank" rel="noopener noreferrer" class="timeline-link">
+                <i class="fa-solid fa-award"></i> View Credly Digital Badges
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT & TERMINAL SECTION ==================== -->
+    <section class="section-contact" id="contact">
+      <div class="container">
+        
+        <div class="contact-card-wrapper card-glass">
+          <div class="contact-grid">
+            
+            <!-- Left Info Panel -->
+            <div class="contact-info-panel">
+              <span class="section-badge">// 05. INITIALIZE CONNECTION</span>
+              <h2 class="contact-heading">Let’s Build, Reverse Engineer, or <span class="text-gradient">Collaborate</span></h2>
+              <p class="contact-desc">
+                Whether you have an interesting reverse engineering project, a low-level systems challenge, 
+                or an engineering opportunity, my communication channel is always open.
+              </p>
+
+              <div class="contact-direct-items">
+                <!-- Direct Email Item with Copy Button -->
+                <div class="direct-item">
+                  <div class="direct-icon"><i class="fa-solid fa-envelope"></i></div>
+                  <div class="direct-details">
+                    <span class="direct-label">Direct Communication Channel</span>
+                    <a href="mailto:firstlast2s100@gmail.com" class="direct-value">firstlast2s100@gmail.com</a>
+                  </div>
+                  <button class="btn-copy-email magnetic-target" id="copyEmailBtn" title="Copy to clipboard" aria-label="Copy Email">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                </div>
+
+                <!-- Availability Status Item -->
+                <div class="direct-item">
+                  <div class="direct-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                  <div class="direct-details">
+                    <span class="direct-label">Availability & Focus Areas</span>
+                    <span class="direct-value highlight-accent">Reverse Engineering // Systems & Robotics</span>
+                  </div>
+                </div>
+
+                <!-- Fast Response Item -->
+                <div class="direct-item">
+                  <div class="direct-icon"><i class="fa-solid fa-bolt"></i></div>
+                  <div class="direct-details">
+                    <span class="direct-label">Response Protocol</span>
+                    <span class="direct-value">Typically active within 24 hours</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Social Links Cluster -->
+              <div class="contact-social-cluster">
+                <span class="social-cluster-title">Find me across the web:</span>
+                <div class="social-links-grid">
+                  <a href="https://github.com/Ritansh2004" target="_blank" rel="noopener noreferrer" class="social-link-btn magnetic-target" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub</span>
+                  </a>
+                  <a href="https://fearlessrevolution.com/memberlist.php?mode=viewprofile&u=213726" target="_blank" rel="noopener noreferrer" class="social-link-btn magnetic-target" title="Fearless Revolution">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>FearlessRev</span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/ritansh-mahour-9461a7287" target="_blank" rel="noopener noreferrer" class="social-link-btn magnetic-target" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                  </a>
+                  <a href="https://www.instagram.com/ritansh_mahour?igsh=cHFhOGowampxbzFx" target="_blank" rel="noopener noreferrer" class="social-link-btn magnetic-target" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
+                  </a>
+                  <a href="https://www.facebook.com/ritansh.mahour.5?mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer" class="social-link-btn magnetic-target" title="Facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                    <span>Facebook</span>
+                  </a>
+                  <a href="https://www.credly.com/users/ritansh-mahour/badges" target="_blank" rel="noopener noreferrer" class="social-link-btn magnetic-target" title="Credly Badges">
+                    <i class="fa-solid fa-award"></i>
+                    <span>Credly</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Interactive Form Panel -->
+            <div class="contact-form-panel">
+              <div class="form-header">
+                <div class="form-terminal-title"><i class="fa-solid fa-terminal"></i> send_message.sh</div>
+                <div class="form-status">256-BIT ENCRYPTED</div>
+              </div>
+
+              <form id="contactForm" class="contact-form" onsubmit="return false;">
+                <!-- Optional Web3Forms Direct API Key (Set in quotes if direct background email without client is desired) -->
+                <input type="hidden" id="web3FormsKey" value="">
+                <div class="form-group">
+                  <label for="senderName" class="form-label">// YOUR NAME</label>
+                  <div class="input-wrapper">
+                    <i class="fa-regular fa-user input-icon"></i>
+                    <input type="text" id="senderName" class="form-input" placeholder="e.g. Alex Hunter" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="senderEmail" class="form-label">// YOUR EMAIL</label>
+                  <div class="input-wrapper">
+                    <i class="fa-regular fa-envelope input-icon"></i>
+                    <input type="email" id="senderEmail" class="form-input" placeholder="e.g. alex@domain.com" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="msgSubject" class="form-label">// SUBJECT / INQUIRY TYPE</label>
+                  <div class="input-wrapper">
+                    <i class="fa-solid fa-tag input-icon"></i>
+                    <input type="text" id="msgSubject" class="form-input" placeholder="e.g. Reverse Engineering / Project Collaboration" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="msgBody" class="form-label">// TRANSMISSION MESSAGE</label>
+                  <div class="input-wrapper">
+                    <textarea id="msgBody" rows="4" class="form-input form-textarea" placeholder="Describe your proposal or project details..." required></textarea>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block magnetic-target" id="submitMsgBtn">
+                  <span>Transmit Message</span>
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+                
+                <div class="form-feedback" id="formFeedback"></div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== INTERACTIVE PROJECT DETAIL POPUP MODAL ==================== -->
+  <div class="project-modal-backdrop" id="projectModal" aria-hidden="true">
+    <div class="project-modal-container card-glass">
+      
+      <!-- Close Button -->
+      <button class="modal-close-btn magnetic-target" id="modalCloseBtn" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+        <span>ESC</span>
+      </button>
+
+      <!-- Dynamic Modal Content Injection Target -->
+      <div class="modal-body-content" id="modalBodyContent">
+        <!-- Content gets rendered via script.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div class="toast-notification" id="toastNotice">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">Copied to clipboard!</span>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <span class="footer-brand">[RM] // RITANSH</span>
+        <p class="footer-sub">Engineered with precision, curiosity, and code.</p>
+      </div>
+      <div class="footer-center">
+        <span class="status-indicator-dot"></span>
+        <span>Systems operational // Designed & Coded for Ritansh</span>
+      </div>
+      <div class="footer-right">
+        <a href="#hero" class="back-to-top magnetic-target" title="Return to Top">
+          <span>TOP</span>
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Custom Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
