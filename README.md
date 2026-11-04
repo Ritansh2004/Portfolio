@@ -45,7 +45,7 @@ Designed with a sleek **Cyber-Luxury Minimalist aesthetic** inspired by low-leve
    - Digital badges verified on **Credly**.
 
 8. **Contact Hub & Terminal Transmission**:
-   - Direct Email with one-click **"Copy Email"** button (`ritanshmahour@gmail.com`) and automated toast notification.
+   - Direct Email with one-click **"Copy Email"** button (`firstlast2s100@gmail.com`) and automated toast notification.
    - Privacy-first setup: No physical address or private phone number exposed.
    - Interactive terminal form (`send_message.sh`) that validates fields and prepares a pre-filled mail transmission.
    - Social links to GitHub, Fearless Revolution, LinkedIn, Instagram, Facebook, and Credly.
