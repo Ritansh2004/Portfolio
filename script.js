@@ -166,6 +166,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 35);
 
+  // Safety fallback for mobile battery-saver mode or slow networks
+  setTimeout(() => {
+    if (hudPreloader && hudPreloader.style.display !== 'none') {
+      clearInterval(counterInterval);
+      if (hudCount) hudCount.textContent = '100';
+      if (hudProgressBar) hudProgressBar.style.width = '100%';
+      hudPreloader.classList.add('loaded');
+      initEntranceAnimations();
+      setTimeout(() => {
+        hudPreloader.style.display = 'none';
+      }, 700);
+    }
+  }, 3500);
+
   // ==========================================================================
   // 3. CUSTOM CURSOR WITH SMOOTH LERP PHYSICS & MAGNETIC TARGETS
   // ==========================================================================
@@ -357,6 +371,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close on escape
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeMobileNav();
+    });
+
+    // Close when tapping/clicking anywhere outside the drawer
+    document.addEventListener('click', (e) => {
+      if (navMenu && navMenu.classList.contains('active')) {
+        if (!navMenu.contains(e.target) && !mobileNavBtn.contains(e.target)) {
+          closeMobileNav();
+        }
+      }
     });
   }
 
