@@ -52,7 +52,7 @@ html {
   font-size: 16px;
   background-color: var(--bg-dark);
   color: var(--text-main);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -63,6 +63,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -128,7 +129,7 @@ body.cursor-hover .custom-cursor-ring {
   background-color: rgba(0, 240, 255, 0.08);
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (hover: none) {
   .custom-cursor-dot, .custom-cursor-ring {
     display: none !important;
   }
@@ -155,6 +156,7 @@ body.cursor-hover .custom-cursor-ring {
 .hud-preloader.loaded {
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
   transform: scale(1.04);
 }
 
@@ -779,19 +781,53 @@ section {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 28px;
+  width: 26px;
   height: 18px;
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1001;
+  z-index: 1005;
+  position: relative;
 }
 .mobile-nav-toggle span {
   width: 100%;
   height: 2px;
   background-color: var(--text-main);
-  transition: all 0.3s ease;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+  transform-origin: center;
+}
+.mobile-nav-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+  background-color: var(--primary-cyan);
+}
+.mobile-nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-nav-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+  background-color: var(--primary-cyan);
+}
+
+/* Backdrop */
+.nav-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 6, 10, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-backdrop.active {
+  opacity: 1;
+  pointer-events: all;
 }
 
 @media (max-width: 900px) {
@@ -802,19 +838,54 @@ section {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 280px;
+    width: min(300px, 80vw);
     height: 100vh;
-    background: #0b0e14;
-    border-left: 1px solid rgba(0, 240, 255, 0.15);
+    background: #090c14;
+    border-left: 1px solid rgba(0, 240, 255, 0.2);
+    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.8);
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 3rem 2.5rem;
-    gap: 2rem;
-    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 3rem 2rem;
+    gap: 1.75rem;
+    z-index: 1002;
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .nav-links.active {
     right: 0;
+  }
+  .nav-link {
+    font-size: 1.1rem;
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 540px) {
+  .nav-container {
+    padding: 0 0.85rem;
+    gap: 0.5rem;
+  }
+  .nav-brand {
+    font-size: 0.95rem;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .nav-actions {
+    gap: 0.5rem;
+  }
+  .nav-btn {
+    height: 30px !important;
+    padding: 0 0.65rem !important;
+    font-size: 0.72rem !important;
+  }
+  .nav-btn span {
+    display: none;
+  }
+  .nav-btn i {
+    font-size: 0.85rem;
+    margin: 0;
   }
 }
 
@@ -2135,63 +2206,142 @@ a.direct-value:hover {
 
 @media (max-width: 768px) {
   section {
-    padding: 4.5rem 0;
+    padding: 2.5rem 0 !important;
+  }
+  .container {
+    padding: 0 1.25rem;
   }
   .skills-matrix-grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
   .projects-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   .hero-metrics-strip {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
   .contact-card-wrapper {
-    padding: 1.75rem;
+    padding: 1.5rem 1.25rem;
   }
   .social-links-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .project-modal-backdrop {
+    padding: 1rem;
+  }
   .project-modal-container {
-    padding: 1.75rem;
+    padding: 1.5rem 1.25rem;
+    max-height: 90vh;
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal-close-btn {
+    position: sticky;
+    top: 0;
+    float: right;
+    margin-bottom: 0.5rem;
+    z-index: 10;
   }
   .modal-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+  /* Disable heavy GPU blur on mobile for smooth performance */
+  .scroll-reveal {
+    filter: none !important;
+    transform: scale(0.96) translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
 }
 
 @media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  .section-title {
+    font-size: 1.65rem;
+  }
   .hero-title {
-    font-size: 2.1rem;
+    font-size: 1.6rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.3px !important;
+  }
+  .hero-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
   .hero-cta-group {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
   }
   .hero-cta-group .btn {
     width: 100%;
+    font-size: 0.88rem;
+    padding: 0.75rem 1.25rem;
+  }
+  .hero-cta-group .btn-icon-pill {
+    flex: 1;
+    height: 42px;
+    display: inline-flex;
   }
   .social-links-grid {
     grid-template-columns: 1fr;
   }
   .hud-scanner-wrapper {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
   }
   .hud-ring-outer {
-    width: 210px;
-    height: 210px;
+    width: 190px;
+    height: 190px;
   }
   .hud-ring-middle {
-    width: 160px;
-    height: 160px;
+    width: 145px;
+    height: 145px;
   }
   .hud-ring-inner {
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
   }
   .hud-tech-decorations {
     display: none;
+  }
+  .hud-counter-val {
+    font-size: 2rem;
+  }
+  .terminal-body {
+    padding: 1rem 0.75rem;
+    font-size: 0.72rem;
+    min-height: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .project-card-body {
+    padding: 1.25rem;
+  }
+  .about-story-card, .info-card, .skill-category-card, .timeline-block {
+    padding: 1.25rem 1rem;
+  }
+  .contact-heading {
+    font-size: 1.5rem;
+  }
+  .direct-item {
+    padding: 0.75rem 0.85rem;
+    gap: 0.75rem;
+  }
+  .direct-value {
+    word-break: break-all;
+    font-size: 0.85rem;
+  }
+  .contact-form-panel {
+    padding: 1.25rem 1rem;
+  }
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
   }
 }
